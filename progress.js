@@ -4,13 +4,38 @@
     this.imgs = (typeof imgs === 'string') ? [imgs] : imgs;
     this.opts = $.extend({}, ProLoad.DEDAULTS, options);
 
-    this._unoredered();
+    if (this.opts.order === 'ordered') {
+      this._ordered();
+    } else{
+      this._unordered();
+    }
   }
   ProLoad.DEDAULTS = {
+    order: 'unordered', //無序預加載
     each: null,   //每一张图片加载完毕后执行
     all: null     //所有图片加载完毕后执行
   };
-  ProLoad.prototype._unoredered = function () { //无序加载
+  ProLoad.prototype._ordered = function () {
+    var opts  = this.opts,
+        imgs  = this.imgs,
+        len   = imgs.length,
+        count = 0;
+
+    load();
+    function load() {
+        var imgObj = new Image();
+        $(imgObj).on('load error', function () {
+          if (count >= len) {
+            //所有图片加载完毕
+          }else{
+            load()
+          }
+          count++;
+        });
+        imgObj.src = imgs[count];
+    }
+  };
+  ProLoad.prototype._unordered = function () { //无序加载
     var imgs  = this.imgs,
         opts  = this.opts,
         count = 0,

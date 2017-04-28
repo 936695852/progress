@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>实例2</title>
+<link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  li{
+    list-style: none;
+    display: inline-block;
+    border: 1px solid #fff;
+    cursor: pointer;
+  }
+  li:hover{
+    border-color: #06c;
+  }
+</style>
+</head>
+<body>
+  <h1 class="text-center">实例2</h1>
+  <div class="container">
+    <botton href="" class="btn btn-default" id="btn">表情</botton>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <p class="loading">表情加载中。。。</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="http://cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
+  <script src="progress.js"></script>
+  <script>
+  $(function () {
+    var $btn   = $('#btn');
+    var $panel = $('.panel-body');
+    $panel.hide();
+
+    var imgs = [];
+    for (var i = 0; i < 132; i++) {
+      imgs[i] = 'face/QQ/' + (i + 1) + '.gif';
+    }
+    var len = imgs.length;
+    $btn.on('click', function (e) {
+      e.stopPropagation();
+      $panel.show();
+      $.preload(imgs, {
+        all: function () {
+          var html = '';
+          html += '<ul class="list-group">';
+          for (var i = 0; i < len; i++) {
+            html += '<li><img src="'+ imgs[i] +'" alt=""></li>';
+          }
+          html += '</ul>';
+
+          $panel.html(html);
+        }
+      });
+    })
+
+    $(document).on('click',function () {
+      $panel.hide();
+    })
+  })
+  </script>
+</body>
+</html>

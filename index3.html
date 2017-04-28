@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ZH-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>有序加載</title>
+  <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="box container">
+    <img class="img-responsive" src="http://manhua1031.104-250-150-10.cdndm5.com/11/10684/479986/5_3798.jpg?cid=479986&key=e169762c59bdd400218dc38353176213" alt="" id="img">
+    <p class="btn-group pull-right">
+      <a href="javascript:;" class="btn btn-default" data-control="prev">上一页</a>
+      <a href="javascript:;" class="btn btn-default" data-control="next">下一页</a>
+    </p>
+  </div>
+
+
+  <script src="http://cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
+  <script src="progress.js"></script>
+  <script>
+    var imgs = [
+      'http://manhua1031.104-250-150-10.cdndm5.com/11/10684/479986/7_4083.jpg?cid=479986&key=e169762c59bdd400218dc38353176213',
+      'http://manhua1031.104-250-150-10.cdndm5.com/11/10684/479986/8_2811.jpg?cid=479986&key=e169762c59bdd400218dc38353176213',
+      'http://manhua1031.104-250-150-10.cdndm5.com/11/10684/479986/9_5528.jpg?cid=479986&key=e169762c59bdd400218dc38353176213',
+      'http://manhua1031.104-250-150-10.cdndm5.com/11/10684/479986/10_7625.jpg?cid=479986&key=e169762c59bdd400218dc38353176213',
+      'http://manhua1031.104-250-150-10.cdndm5.com/11/10684/479986/11_8075.jpg?cid=479986&key=e169762c59bdd400218dc38353176213',
+      'http://manhua1031.104-250-150-10.cdndm5.com/11/10684/479986/12_9389.jpg?cid=479986&key=e169762c59bdd400218dc38353176213',
+      'http://manhua1031.104-250-150-10.cdndm5.com/11/10684/479986/13_5695.jpg?cid=479986&key=e169762c59bdd400218dc38353176213',
+      'http://manhua1031.104-250-150-10.cdndm5.com/11/10684/479986/14_8662.jpg?cid=479986&key=e169762c59bdd400218dc38353176213',
+      'http://manhua1031.104-250-150-10.cdndm5.com/11/10684/479986/15_2638.jpg?cid=479986&key=e169762c59bdd400218dc38353176213',
+      'http://manhua1031.104-250-150-10.cdndm5.com/11/10684/479986/16_3676.jpg?cid=479986&key=e169762c59bdd400218dc38353176213',
+      'http://manhua1031.104-250-150-10.cdndm5.com/11/10684/479986/17_7593.jpg?cid=479986&key=e169762c59bdd400218dc38353176213',
+      'http://manhua1031.104-250-150-10.cdndm5.com/11/10684/479986/18_6306.jpg?cid=479986&key=e169762c59bdd400218dc38353176213',
+      'http://manhua1031.104-250-150-10.cdndm5.com/11/10684/479986/19_3245.jpg?cid=479986&key=e169762c59bdd400218dc38353176213'
+    ];
+
+    var len   = imgs.length,
+        index = 0;
+    //有序加载
+    // load()
+    // function load() {
+    //     var imgObj = new Image();
+    //
+    //     $(imgObj).on('load error', function () {
+    //       opts.each &&　opts.each(count);
+    //
+    //       if (count >= len) {
+    //         //所有图片加载完毕
+    //         opts.all && opts.all();
+    //       }else{
+    //         load()
+    //       }
+    //       count++;
+    //     });
+    //
+    //     imgObj.src = imgs[count];
+    // }
+    $.preload(imgs, {
+      order: 'ordered'
+    })
+
+    $('.btn').on('click',function () {
+      if ('prev' === $(this).data('control') ) {
+        index = Math.max(0, --index);
+      }else{
+        index = Math.min(len - 1, ++index);
+      }
+      document.title = (index+1) + '/' + len;
+      $('#img').attr('src', imgs[index]);
+    })
+  </script>
+</body>
+</html>
