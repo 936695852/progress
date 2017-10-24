@@ -3,7 +3,7 @@
 
 用法:
 1. 引入jquery库和progres.js
-2. $.progress(imgs, opts)
+2. $.preload(imgs, opts)
 3. 具体看实例
 
 ### Acknowledgments
